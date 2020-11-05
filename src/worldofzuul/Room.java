@@ -1,5 +1,6 @@
 package worldofzuul;
 
+import java.util.ArrayList;
 import java.util.Set;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -9,6 +10,8 @@ public class Room // Creates the class Room
 {
     private String description; // Declares description
     private HashMap<String, Room> exits;    // ???
+    ArrayList<Item> items = new ArrayList<Item>();
+
 
     public Room(String description)  // Takes description as a parameter for the class Room.
     {
@@ -38,6 +41,9 @@ public class Room // Creates the class Room
         for(String exit : keys) {
             returnString += " " + exit;
         }
+            returnString += "\nItems avaible in the room: \n";
+            returnString += getRoomItems();
+
         return returnString;
     }
 
@@ -45,5 +51,49 @@ public class Room // Creates the class Room
     {
         return exits.get(direction);
     }
+
+
+    public Item getItem(int index) {
+        return items.get(index);
+    }
+    // Get items from the room
+    public Item getItem(String itemName)
+    {
+        for(int i = 0; i<items.size(); i++)
+        {
+            if (items.get(i).getDescription().equals(itemName))
+            {
+                return items.get(i);
+            }
+        }
+        return null;
+    }
+
+    // Remove items from the inventory
+    public void removeItem(String itemName)
+    {
+        for(int i = 0; i<items.size(); i++)
+        {
+            if (items.get(i).getDescription().equals(itemName))
+            {
+                items.remove(i);
+            }
+        }
+    }
+
+    // Set a specifically item in a room
+    public void setItem (Item newitem) {
+        items.add(newitem);
+    }
+
+    // Get the descriptions of items in a room
+    public String getRoomItems () {
+        String output = "";
+        for(int i = 0; i<items.size();i++) {
+            output += items.get(i).getDescription() + " ";
+        }
+        return output;
+    }
+
 }
 

@@ -1,10 +1,13 @@
 package worldofzuul;
 
+import java.util.ArrayList;
+
 public class Game
 {
     private Parser parser;
     private Room currentRoom;
-
+    Room townSquare, village, brimhavenTown, quarry, spring, forest, river, toilet, school; // Generates the objects
+    ArrayList<Item> inventory = new ArrayList<Item>();
 
     public Game()   // Creates the object "Game"
     {
@@ -12,11 +15,9 @@ public class Game
         parser = new Parser();
     }
 
-//test2
+
     private void createRooms()
     {
-        Room townSquare, village, brimhavenTown, quarry, spring, forest, river, toilet, school; // Generates the objects
-
         // Declaring the rooms
         townSquare = new Room("in Town Square");
         village = new Room("in a village");
@@ -65,13 +66,30 @@ public class Game
 
 
         currentRoom = townSquare;  // start game townSquare
+
+        // Adds objects in inventory
+        inventory.add(new Item("hammer"));
+        inventory.add(new Item("map"));
+        inventory.add(new Item("shovel"));
+        inventory.add(new Item("bucket"));
+
+        // Sets items in rooms
+        forest.setItem(new Item("wood"));
+        quarry.setItem(new Item("pickaxe"));
+        quarry.setItem(new Item("stone"));
+        quarry.setItem(new Item("iron"));
+        quarry.setItem(new Item("concrete"));
+        village.setItem(new Item("paper"));
+        townSquare.setItem(new Item("nail"));
+        brimhavenTown.setItem(new Item("pens"));
+        brimhavenTown.setItem(new Item("pipes"));
+
     }
 
     public void play()  // Method we call to play the game
     {
         printWelcome();
 
-        //
         boolean finished = false;
         while (! finished) {
             Command command = parser.getCommand();
@@ -80,7 +98,7 @@ public class Game
         System.out.println("Thank you for playing.  Good bye.");
     }
 
-    private void printWelcome() // Prints out the strings in the method printWelcome (line 46).
+    private void printWelcome() // Prints out the strings in the method printWelcome.
     {
         System.out.println();
         System.out.println("Welcome to the World of Zuul!");
@@ -102,17 +120,90 @@ public class Game
         }
 
         // Checking input
-        if (commandWord == CommandWord.HELP) {
+        if (commandWord == CommandWord.HELP)
+        {
             printHelp();
         }
-        else if (commandWord == CommandWord.GO) {
+        else if (commandWord == CommandWord.GO)
+        {
             goRoom(command);
         }
-        else if (commandWord == CommandWord.QUIT) {
+        else if (commandWord == CommandWord.QUIT)
+        {
             wantToQuit = quit(command);
+        }
+        else if (commandWord == CommandWord.INVENTORY)
+        {
+            printInventory();
+        }
+        else if (commandWord == CommandWord.GET)
+        {
+            getItem(command);
+        }
+        else if (commandWord == CommandWord.DROP)
+        {
+            dropItem(command);
+
         }
         return wantToQuit;
     }
+
+    private void dropItem(Command command) {
+        if (!command.hasSecondWord()) {      // If there is no second word, we don't know what to drop
+            System.out.println("Drop what?");
+            return;
+        }
+
+        String item = command.getSecondWord();
+
+        Item newItem = null;
+        int index = 0;
+        for (int i = 0; i<inventory.size(); i++) {
+            if (inventory.get(i).getDescription().equals(item)) {
+                newItem = inventory.get(i);
+                index = i;
+            }
+        }
+
+        if (newItem == null) {
+            System.out.println("The item is not in your inventory");
+        } else {
+            inventory.remove(index);
+            currentRoom.setItem(new Item(item));
+            System.out.println("Dropped: " + item);
+        }
+    }
+
+    private void printInventory() {
+        String output = "";
+        for(int i = 0; i<inventory.size();i++) {
+            output += inventory.get(i).getDescription() + " ";
+        }
+        System.out.println("You are carrying: ");
+        System.out.println(output);
+    }
+
+        private void getItem(Command command) {
+            if (!command.hasSecondWord()) {      // If command does not has a second command, we don't know what to get
+                System.out.println("Get what?");
+                return;
+            }
+
+            String item = command.getSecondWord();
+
+            // Try to leave the room
+            Item newItem = currentRoom.getItem(item);
+
+            if (newItem == null) {     // We can't go that direction
+                System.out.println("The item is not here!");
+            } else {
+                inventory.add(newItem);
+                currentRoom.removeItem(item);
+                System.out.println("Picked up: " + item);
+            }
+        }
+
+
     // Printing the strings declared in the method printHelp.
     private void printHelp()
     {
