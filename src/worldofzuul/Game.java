@@ -12,7 +12,7 @@ public class Game
         parser = new Parser();
     }
 
-
+//test
     private void createRooms()
     {
         Room townSquare, village, brimhavenTown, quarry, spring, forest, river, toilet, school; // Generates the objects
