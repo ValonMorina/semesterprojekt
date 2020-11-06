@@ -4,7 +4,8 @@ public enum CommandWord {
     GO("go"),
     QUIT("quit"),
     HELP("help"),
-    UNKNOWN("?");
+    UNKNOWN("?"),
+    INVENTORY("inventory");
 
     //Data Field
     private String commandString;

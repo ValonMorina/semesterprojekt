@@ -1,5 +1,7 @@
 package worldofzuul;
 
+import java.util.ArrayList;
+
 public class Game {
     //Data fields
     private Parser parser;
@@ -8,6 +10,9 @@ public class Game {
     //Creates the room
     //Putting the rooms out here makes it possible to manipulate them when items are added and removed from the room
     Room townSquare, village, brimhavenTown, quarry, spring, forest, river, toilet, school;
+
+    //This ArrayList contains the users items, picked up items will be stored here
+    ArrayList<Item> inventory = new ArrayList<Item>();
 
     //Creates the game and initializes the map
     public Game() {
@@ -66,6 +71,10 @@ public class Game {
         //Sets the currentRoom to townSquare, this is used when starting the game
         //currentRoom changes through out the game, always pointing at the room the user is currently in
         currentRoom = townSquare;
+
+        //User inventory
+        //here objects are created and added to the inventory, these will be in inventory from the start of the game
+        inventory.add(new Item("Shovel")); //add is a method defined with arrayList
     }
 
     //Calls this method to play the game, it is a loop that runs until end of the game
@@ -118,6 +127,10 @@ public class Game {
         else if (commandWord == CommandWord.QUIT) {
             wantToQuit = quit(command);
         }
+        //If commandWord is inventory the program executes the method printInventory()
+        else if (commandWord == CommandWord.INVENTORY) {
+            printInventory();
+        }
         return wantToQuit;
     }
 
@@ -167,6 +180,25 @@ public class Game {
         //if only commandWord quit it written the following code is executed and the game ends
         else {
             return true; //Quits
+        }
+    }
+
+    //This method is executed when commandWord inventory is written by user
+    private void printInventory() {
+        String output = ""; //these "" initializes the variable to be empty
+        //Runs through the arrayList named inventory and prints every item in the list
+        for (int i = 0; i < inventory.size(); i++) {
+            //checks inventory for the current value of i, if something is stored there it is added to the String
+            //variable 'output' and using the getDescription() method it is turned into a String
+            output += inventory.get(i).getDescription() + " "; //" " at the end leaves a space between printed items
+        }
+        System.out.println("Your inventory contains: ");
+        //if statement checks if inventory is empty by checking whether or not the value of 'output' has been changed
+        if (output == "") {
+            System.out.println("Nothing, go pick up some items"); //prints message if inventory is empty
+        }
+        else {
+            System.out.println(output); //prints the inventory
         }
     }
 }

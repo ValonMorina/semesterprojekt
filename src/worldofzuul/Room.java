@@ -1,5 +1,6 @@
 package worldofzuul;
 
+import java.util.ArrayList;
 import java.util.Set;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -9,6 +10,9 @@ public class Room {
     //Data Fields
     private String description;
     private HashMap<String, Room> exits;
+
+    //This is the ArrayList for the rooms, it stores items that can be found in the room
+    ArrayList<Item> roomItem = new ArrayList<Item>();
 
     //Constructor for room
     public Room(String description) {
@@ -50,9 +54,28 @@ public class Room {
 
     //Return the room that is reached if user goes from this room in the direction "direction"
     //If there is no room in that direction null is returned
-    public Room getExit(String direction)
-    {
+    public Room getExit(String direction) {
         return exits.get(direction);
     }
+
+    //Picks up item from the room
+    public Item getRoomItem(int index) { //Item is the return type
+        return roomItem.get(index);
+    }
+
+    //Setter method: sets a particular Item in the room
+    public void setRoomItem(Item newItem) {
+        roomItem.add(newItem);
+    }
+
+    public String getRoomItems() {
+        String output = ""; //these "" initializes the variable to be empty
+        //Runs through the arrayList named roomItem
+        for (int i = 0; i < roomItem.size(); i++) {
+            output += roomItem.get(i).getDescription() + " ";
+        }
+        return output;
+    }
+
 }
 
