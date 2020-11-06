@@ -15,7 +15,6 @@ public class Game {
         parser = new Parser();
     }
 
-
     private void createRooms() {
         //Creates the room with a description
         townSquare = new Room("in Town Square");
@@ -65,6 +64,7 @@ public class Game {
         school.setExit("east", toilet);
 
         //Sets the currentRoom to townSquare, this is used when starting the game
+        //currentRoom changes through out the game, always pointing at the room the user is currently in
         currentRoom = townSquare;
     }
 
