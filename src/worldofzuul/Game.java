@@ -1,9 +1,13 @@
 package worldofzuul;
 
-public class Game
-{
+public class Game {
+    //Data fields
     private Parser parser;
     private Room currentRoom;
+
+    //Creates the room
+    //Putting the rooms out here makes it possible to manipulate them when items are added and removed from the room
+    Room townSquare, village, brimhavenTown, quarry, spring, forest, river, toilet, school;
 
     //Creates the game and initializes the map
     public Game() {
@@ -11,12 +15,9 @@ public class Game
         parser = new Parser();
     }
 
-    //Creates rooms and links their exits together
-    private void createRooms()
-    {
-        Room townSquare, village, brimhavenTown, quarry, spring, forest, river, toilet, school; // Generates the objects
 
-        // Declaring the rooms
+    private void createRooms() {
+        //Creates the room with a description
         townSquare = new Room("in Town Square");
         village = new Room("in a village");
         brimhavenTown = new Room("in Brimhaven Town");
@@ -29,6 +30,7 @@ public class Game
 
 
         //Gives the room an exit command word paired with the new location the user will end up in if that word is used
+        //This relates the different rooms to one another
         townSquare.setExit("east", village);
         townSquare.setExit("south", river);
         townSquare.setExit("west", brimhavenTown);
