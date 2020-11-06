@@ -5,14 +5,13 @@ public class Game
     private Parser parser;
     private Room currentRoom;
 
-
-    public Game()   // Creates the object "Game"
-    {
-        createRooms();
+    //Creates the game and initializes the map
+    public Game() {
+        createRooms(); //initializes the map
         parser = new Parser();
     }
 
-//test
+    //Creates rooms and links their exits together
     private void createRooms()
     {
         Room townSquare, village, brimhavenTown, quarry, spring, forest, river, toilet, school; // Generates the objects
@@ -29,7 +28,7 @@ public class Game
         school = new Room("now at the school");
 
 
-        // Initialise room exits
+        //Gives the room an exit command word paired with the new location the user will end up in if that word is used
         townSquare.setExit("east", village);
         townSquare.setExit("south", river);
         townSquare.setExit("west", brimhavenTown);
@@ -63,59 +62,66 @@ public class Game
         school.setExit("south", townSquare);
         school.setExit("east", toilet);
 
-
-        currentRoom = townSquare;  // start game townSquare
+        //Sets the currentRoom to townSquare, this is used when starting the game
+        currentRoom = townSquare;
     }
 
-    public void play()  // Method we call to play the game
-    {
-        printWelcome();
+    //Calls this method to play the game, it is a loop that runs until end of the game
+    public void play() {
+        printWelcome(); //Calls the printWelcome() method
 
-        //
+        //Repeatedly reads commands from console and executes them until game is over
         boolean finished = false;
         while (! finished) {
             Command command = parser.getCommand();
             finished = processCommand(command);
         }
+        //Message when game is ended
         System.out.println("Thank you for playing.  Good bye.");
     }
 
-    private void printWelcome() // Prints out the strings in the method printWelcome (line 46).
+    //This method prints the opening message for the user
+    private void printWelcome()
     {
         System.out.println();
         System.out.println("Welcome to the World of Zuul!");
         System.out.println("World of Zuul is a new, incredibly boring adventure game.");
         System.out.println("Type '" + CommandWord.HELP + "' if you need help.");
-        System.out.println();
-        System.out.println(currentRoom.getLongDescription());
+        System.out.println(); //Empty line, creates space
+        System.out.println(currentRoom.getLongDescription()); //Informs the user of the current room
     }
 
-    private boolean processCommand(Command command) // processCommand takes two commands and operates on them.
-    {
+    //Processes (executes) the commands given by the user
+
+    private boolean processCommand(Command command) {// processCommand takes two commands and operates on them.
         boolean wantToQuit = false; // Declaring the variable wantToQuit
 
         CommandWord commandWord = command.getCommandWord();
 
+        //If invalid commandWord is given the following code is executed
         if(commandWord == CommandWord.UNKNOWN) {
             System.out.println("I don't know what you mean...");
-            return false;
+            return false; //Keeps wantToQuit false
         }
-
-        // Checking input
+        //If commandWord is help, execute method printHelp()
         if (commandWord == CommandWord.HELP) {
             printHelp();
         }
+        //If commandWord is go, execute method goRoom(command)
         else if (commandWord == CommandWord.GO) {
             goRoom(command);
         }
+        //If commandWord is quit, the program executes the method quit(command) and sets the boolean variable wantToQuit
+        //to the result of the quit(command) method
         else if (commandWord == CommandWord.QUIT) {
             wantToQuit = quit(command);
         }
         return wantToQuit;
     }
-    // Printing the strings declared in the method printHelp.
-    private void printHelp()
-    {
+
+    //Following method is activated by the commandWord help
+    private void printHelp() {
+        // Printing the strings declared in the method printHelp()
         System.out.println("You are lost. You are alone. You wander");
         System.out.println("around in Town Square.");
         System.out.println();
@@ -123,34 +129,42 @@ public class Game
         parser.showCommands();
     }
 
-    private void goRoom(Command command)
-    {
-        if(!command.hasSecondWord()) {      // If command does not has a second command, we print "Go where?".
+    //Following method is activated by the commandWord go
+    private void goRoom(Command command) {
+        //If user only gives command word go, with no second command the following code is processed
+        if(!command.hasSecondWord()) {
             System.out.println("Go where?");
             return;
         }
 
-        String direction = command.getSecondWord();     // Sets direction
+        //Stores second command in a String named direction
+        String direction = command.getSecondWord();
 
-        Room nextRoom = currentRoom.getExit(direction);    // Checks if we can go that direction
+        //Declares Room named nextRoom and checks if currentRoom has an exit named as the above stored variable direction
+        Room nextRoom = currentRoom.getExit(direction);
 
-        if (nextRoom == null) {     // We can't go that direction
+        //if the user gives command word go and a second command that is invalid the following code is processed
+        if (nextRoom == null) {
             System.out.println("There is no door!");
         }
         else {
-            currentRoom = nextRoom;     // We can go this direction
+            //Sets variable nextRoom as currentRoom, this is what moves the user
+            currentRoom = nextRoom;
+            //Tells the user where they are now and the exits using method .getLongDescription()
             System.out.println(currentRoom.getLongDescription());
         }
     }
 
-    private boolean quit(Command command)
-    {
+    //Following method is activated by the commandWord quit
+    private boolean quit(Command command) {
+        //If user writes a second command word after quit the following code is executed
         if(command.hasSecondWord()) {
             System.out.println("Quit what?");
             return false; // Does not quit
         }
+        //if only commandWord quit it written the following code is executed and the game ends
         else {
-            return true;    // Quits
+            return true; //Quits
         }
     }
 }
