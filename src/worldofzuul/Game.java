@@ -140,31 +140,6 @@ public class Game {
         return wantToQuit;
     }
 
-    private void takeItem(Command command) {
-        //If user only gives command word 'take', with no second command the following code is processed
-        if (!command.hasSecondWord()) {
-            System.out.println("Take what?");
-            return;
-        }
-        //Stores second command word in a String named item
-        String item = command.getSecondWord();
-
-        //Declares Item named newtItem and checks if currentRoom has an item named as the above stored variable 'item'
-        //if the 'item' called by second command word is in the room it is stored in the variable newItem
-        Item newItem = currentRoom.getRoomItem(item);
-
-        if (newItem == null) {
-            System.out.println("That item is not in the room!");
-        }
-        else {
-            //add to inventory
-            inventory.add(newItem);
-            //remove item from room
-            currentRoom.removeRoomItem(item);
-            System.out.println("You Picked up: " + item);
-        }
-
-    }
 
     //Following method is activated by the commandWord help
     private void printHelp() {
@@ -232,5 +207,30 @@ public class Game {
         else {
             System.out.println(output); //prints the inventory
         }
+    }
+    private void takeItem(Command command) {
+        //If user only gives command word 'take', with no second command the following code is processed
+        if (!command.hasSecondWord()) {
+            System.out.println("Take what?");
+            return;
+        }
+        //Stores second command word in a String named item
+        String item = command.getSecondWord();
+
+        //Declares Item named newtItem and checks if currentRoom has an item named as the above stored variable 'item'
+        //if the 'item' called by second command word is in the room it is stored in the variable newItem
+        Item newItem = currentRoom.getRoomItem(item);
+
+        if (newItem == null) {
+            System.out.println("That item is not in the room!");
+        }
+        else {
+            //add to inventory
+            inventory.add(newItem);
+            //remove item from room
+            currentRoom.removeRoomItem(item);
+            System.out.println("You Picked up: " + item);
+        }
+
     }
 }
