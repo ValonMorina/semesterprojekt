@@ -137,6 +137,9 @@ public class Game {
         else if (commandWord == CommandWord.TAKE) {
             takeItem(command);
         }
+        else if (commandWord == CommandWord.DROP) {
+            dropItem(command);
+        }
         return wantToQuit;
     }
 
@@ -209,7 +212,7 @@ public class Game {
         }
     }
     private void takeItem(Command command) {
-        //If user only gives command word 'take', with no second command the following code is processed
+        //If user only gives command word 'drop', with no second command the following code is processed
         if (!command.hasSecondWord()) {
             System.out.println("Take what?");
             return;
@@ -229,7 +232,40 @@ public class Game {
             inventory.add(newItem);
             //remove item from room
             currentRoom.removeRoomItem(item);
-            System.out.println("You Picked up: " + item);
+            System.out.println("You picked up: " + item);
+        }
+    }
+
+    private void dropItem(Command command) {
+        //If user only gives command word 'take', with no second command the following code is processed
+        if (!command.hasSecondWord()) {
+            System.out.println("Drop what?");
+            return;
+        }
+        //Stores second command word in a String named item
+        String item = command.getSecondWord();
+
+        //Declares Item named newtItem and checks if currentRoom has an item named as the above stored variable 'item'
+        //if the 'item' called by second command word is in the room it is stored in the variable newItem
+        Item newItem = null;
+        //Checks the ArrayList inventory to see if the second command word matches anything in the list
+        for (int i = 0; i < inventory.size(); i++) {
+            if (inventory.get(i).getDescription().equals(item)) {
+                newItem = inventory.get(i);
+            }
+        }
+
+        if (newItem == null) {
+            System.out.println("You don't have that item in your inventory");
+        }
+        else {
+            //add Item to currentRoom
+            //creates a new object of the class Item with the description of the second command word
+            currentRoom.setRoomItem(new Item(item));
+
+            //remove item from inventory
+            inventory.remove(item);
+            System.out.println("You dropped: " + item);
         }
     }
 }

@@ -84,7 +84,6 @@ public class Room {
         roomItem.add(newItem);
     }
 
-
     //Get a description of the items in a room
     public String getRoomItems() {
         String output = ""; //these "" initializes the variable to be empty
@@ -103,7 +102,6 @@ public class Room {
                 roomItem.remove(i);
             }
         }
-
     }
 }
 
