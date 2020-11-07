@@ -72,7 +72,6 @@ public class Room {
             if (roomItem.get(i).getDescription().equals(itemName)); {
                 return roomItem.get(i);
             }
-
         }
         //If there is no item with the given itemName, NULL is returned
         return null;

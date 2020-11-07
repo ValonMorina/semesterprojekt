@@ -150,17 +150,18 @@ public class Game {
         String item = command.getSecondWord();
 
         //Declares Item named newtItem and checks if currentRoom has an item named as the above stored variable 'item'
+        //if the 'item' called by second command word is in the room it is stored in the variable newItem
         Item newItem = currentRoom.getRoomItem(item);
 
         if (newItem == null) {
             System.out.println("That item is not in the room!");
         }
         else {
-            //remove item from room
-            
             //add to inventory
             inventory.add(newItem);
-
+            //remove item from room
+            currentRoom.removeRoomItem(item);
+            System.out.println("You Picked up: " + item);
         }
 
     }
