@@ -1,6 +1,7 @@
 package worldofzuul;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Game {
     //Data fields
@@ -13,6 +14,9 @@ public class Game {
 
     //This ArrayList contains the users items, picked up items will be stored here
     ArrayList<Item> inventory = new ArrayList<Item>();
+
+    //Creates object Score to track user's points
+    Points score = new Points();
 
     //Creates the game and initializes the map
     public Game() {
@@ -75,9 +79,14 @@ public class Game {
         //User inventory
         //here objects are created and added to the inventory, these will be in inventory from the start of the game
         inventory.add(new Item("shovel")); //add is a method defined with arrayList
+        inventory.add(new Item("paper"));
+        inventory.add(new Item("pens"));
+        inventory.add(new Item("scissor"));
+        inventory.add(new Item("nail"));
+        inventory.add(new Item("hammer"));
 
-        //Room inventory, sets items in the roomsm these can be picked up by the user
-        townSquare.setRoomItem(new Item("paper"));
+        //Room inventory, sets items in the rooms, these can be picked up by the user
+        townSquare.setRoomItem(new Item("hat"));
     }
 
     //Calls this method to play the game, it is a loop that runs until end of the game
@@ -139,6 +148,9 @@ public class Game {
         }
         else if (commandWord == CommandWord.DROP) {
             dropItem(command);
+        }
+        else if (commandWord == CommandWord.BUILD) {
+            buildItem(command);
         }
         return wantToQuit;
     }
@@ -266,6 +278,50 @@ public class Game {
             //remove item from inventory
             inventory.remove(item);
             System.out.println("You dropped: " + item);
+        }
+    }
+    private void buildItem(Command command) {
+        //If user only gives command word 'build', with no second command the following code is processed
+        if (!command.hasSecondWord()) {
+            System.out.println("Build what?");
+            return;
+        }
+
+        String secondWord = command.getSecondWord();
+        //Building the poster
+        if (secondWord.equals("poster")) {
+
+            for (int i=0; i< inventory.size(); i++) {
+                if (inventory.get(i).getDescription().equals("paper")) {
+                    for (i = 1; i< inventory.size(); i++) {
+                        if (inventory.get(i).getDescription().equals("pens")) {
+                            for (i = 2; i< inventory.size(); i++) {
+                                if (inventory.get(i).getDescription().equals("scissor")) {
+                                    for (i = 3; i< inventory.size(); i++) {
+                                        if (inventory.get(i).getDescription().equals("nail")) {
+                                            for (i = 4; i< inventory.size(); i++) {
+                                                if (inventory.get(i).getDescription().equals("hammer")) {
+                                                    //add new item to inventory
+                                                    inventory.add(new Item("info-poster"));
+
+                                                    //print message to user
+                                                    System.out.println("You just build a poster with info about sanitation!" +
+                                                            " Find it in your inventory");
+
+                                                    //add points to user's score
+                                                    score.setScore(20);
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            //If some items are missing, the following message is printed to the user
+            System.out.println("You don't have all the needed items yet, go find them");
         }
     }
 }
