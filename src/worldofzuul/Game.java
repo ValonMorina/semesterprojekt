@@ -75,6 +75,9 @@ public class Game {
         //User inventory
         //here objects are created and added to the inventory, these will be in inventory from the start of the game
         inventory.add(new Item("Shovel")); //add is a method defined with arrayList
+
+        //Room inventory, sets items in the rooms
+        townSquare.setRoomItem(new Item("paper"));
     }
 
     //Calls this method to play the game, it is a loop that runs until end of the game
@@ -131,7 +134,35 @@ public class Game {
         else if (commandWord == CommandWord.INVENTORY) {
             printInventory();
         }
+        else if (commandWord == CommandWord.TAKE) {
+            takeItem(command);
+        }
         return wantToQuit;
+    }
+
+    private void takeItem(Command command) {
+        //If user only gives command word 'take', with no second command the following code is processed
+        if (!command.hasSecondWord()) {
+            System.out.println("Take what?");
+            return;
+        }
+        //Stores second command word in a String named item
+        String item = command.getSecondWord();
+
+        //Declares Item named newtItem and checks if currentRoom has an item named as the above stored variable 'item'
+        Item newItem = currentRoom.getRoomItem(item);
+
+        if (newItem == null) {
+            System.out.println("That item is not in the room!");
+        }
+        else {
+            //remove item from room
+            
+            //add to inventory
+            inventory.add(newItem);
+
+        }
+
     }
 
     //Following method is activated by the commandWord help
@@ -146,7 +177,7 @@ public class Game {
 
     //Following method is activated by the commandWord go
     private void goRoom(Command command) {
-        //If user only gives command word go, with no second command the following code is processed
+        //If user only gives command word 'go', with no second command the following code is processed
         if(!command.hasSecondWord()) {
             System.out.println("Go where?");
             return;

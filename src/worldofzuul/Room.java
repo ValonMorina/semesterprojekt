@@ -42,13 +42,17 @@ public class Room {
         return "You are " + description + ".\n" + getExitString();
     }
 
-    //return a String giving the room's exits
+    //return a String giving the room's exits and the items in the room if any
     private String getExitString() {
         String returnString = "Exits:";
         Set<String> keys = exits.keySet();
         for(String exit : keys) {
             returnString += " " + exit;
         }
+        //shows items in the room
+        returnString += "\nItems in the room:\n";
+        returnString += getRoomItems();
+
         return returnString;
     }
 
@@ -58,9 +62,20 @@ public class Room {
         return exits.get(direction);
     }
 
-    //Picks up item from the room
+    //Picks up item from the room using index (int) as parameter (method overloading)
     public Item getRoomItem(int index) { //Item is the return type
         return roomItem.get(index);
+    }
+    //Picks up item from the room using a String as parameter (method overloading)
+    public Item getRoomItem(String itemName) { //Item is the return type
+        for (int i = 0; i < roomItem.size(); i++) {
+            if (roomItem.get(i).getDescription().equals(itemName)); {
+                return roomItem.get(i);
+            }
+
+        }
+        //If there is no item with the given itemName, NULL is returned
+        return null;
     }
 
     //Setter method: sets a particular Item in the room
@@ -68,14 +83,26 @@ public class Room {
         roomItem.add(newItem);
     }
 
+
+    //Get a description of the items in a room
     public String getRoomItems() {
         String output = ""; //these "" initializes the variable to be empty
         //Runs through the arrayList named roomItem
         for (int i = 0; i < roomItem.size(); i++) {
-            output += roomItem.get(i).getDescription() + " ";
+            //checks inventory for the current value of i, if something is stored there it is added to the String
+            //variable 'output' and using the getDescription() method it is turned into a String
+            output += roomItem.get(i).getDescription() + " "; //" " at the end leaves a space between printed items
         }
         return output;
     }
 
+    public void removeRoomItem(String itemName) {
+        for (int i = 0; i < roomItem.size(); i++) {
+            if (roomItem.get(i).getDescription().equals(itemName)) {
+                roomItem.remove(i);
+            }
+        }
+
+    }
 }
 
