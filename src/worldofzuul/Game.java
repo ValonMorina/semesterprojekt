@@ -74,9 +74,9 @@ public class Game {
 
         //User inventory
         //here objects are created and added to the inventory, these will be in inventory from the start of the game
-        inventory.add(new Item("Shovel")); //add is a method defined with arrayList
+        inventory.add(new Item("shovel")); //add is a method defined with arrayList
 
-        //Room inventory, sets items in the rooms
+        //Room inventory, sets items in the roomsm these can be picked up by the user
         townSquare.setRoomItem(new Item("paper"));
     }
 
@@ -231,6 +231,5 @@ public class Game {
             currentRoom.removeRoomItem(item);
             System.out.println("You Picked up: " + item);
         }
-
     }
 }

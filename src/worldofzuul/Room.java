@@ -66,10 +66,12 @@ public class Room {
     public Item getRoomItem(int index) { //Item is the return type
         return roomItem.get(index);
     }
+
+
     //Picks up item from the room using a String as parameter (method overloading)
     public Item getRoomItem(String itemName) { //Item is the return type
         for (int i = 0; i < roomItem.size(); i++) {
-            if (roomItem.get(i).getDescription().equals(itemName)); {
+            if (roomItem.get(i).getDescription().equals(itemName)) {
                 return roomItem.get(i);
             }
         }
