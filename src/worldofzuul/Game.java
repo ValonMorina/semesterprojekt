@@ -303,16 +303,19 @@ public class Game {
             System.out.println("Hi my name is Sarah, I need your help making posters about sanitation");
             System.out.println("Find the following items: paper, scissor, pens, hammer, nail");
             System.out.println("Check your inventory to see what you already have, come back if you forget what you need.");
+            System.out.println("Come back when you are ready to 'build poster'");
         }
         else if (currentRoom == spring) {
             System.out.println("Hi I'm Jennifer Lopez, nice to meet you!");
             System.out.println("I am trying to build spring protection, for this beautiful spring to make the water clean.");
             System.out.println("Can you get these items for me? Pickaxe, wood and pipes.");
+            System.out.println("Come back when you are ready to 'build spring'");
         }
         else if (currentRoom == village) {
             System.out.println("Hi there! I'm Tony.");
             System.out.println("I am trying to build a well to supply the village with clean water, but I need a few items.");
             System.out.println("Please go find rocks, rope, bucket, wood and shovel");
+            System.out.println("Come back when you are ready to 'build well'");
         }
         else {
             System.out.println("There are no one to talk to here");
@@ -352,7 +355,7 @@ public class Game {
                         }
                         if (counter == buildingSpring.length)
                         {
-                            System.out.println("You build the spring protection!");
+                            System.out.println("You build the spring protection! \nYou get 20 points");
 
                             //add points to user's score
                             score.setScore(20);
@@ -388,7 +391,7 @@ public class Game {
                         if (counter == buildingPoster.length)
                         {
                             System.out.println("You just build a poster with info about sanitation!" +
-                                    " Find it in your inventory");
+                                    " Find it in your inventory. \nYou get 20 points");
 
                             //add new item to inventory
                             inventory.add(new Item("info-poster"));
@@ -425,13 +428,13 @@ public class Game {
                         }
                         if (counter == buildingWell.length)
                         {
-                            System.out.println("You build the well!");
+                            System.out.println("You build the well! \nYou get 20 points");
 
                             //add points to user's score
                             score.setScore(20);
 
                         } else {
-                            System.out.println("You can't build the well. ");
+                            System.out.println("You can't build the well.");
                         }
                     }
                 else {
