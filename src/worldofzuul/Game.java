@@ -15,6 +15,7 @@ public class Game {
     //This ArrayList contains the users items, picked up items will be stored here
     ArrayList<Item> inventory = new ArrayList<Item>();
 
+
     //Creates object Score to track user's points
     Points score = new Points();
 
@@ -78,15 +79,21 @@ public class Game {
 
         //User inventory
         //here objects are created and added to the inventory, these will be in inventory from the start of the game
-        inventory.add(new Item("shovel")); //add is a method defined with arrayList
-        inventory.add(new Item("paper"));
-        inventory.add(new Item("pens"));
-        inventory.add(new Item("scissor"));
-        inventory.add(new Item("nail"));
         inventory.add(new Item("hammer"));
+        inventory.add(new Item("map"));
+        inventory.add(new Item("shovel"));
+        inventory.add(new Item("bucket"));
 
         //Room inventory, sets items in the rooms, these can be picked up by the user
-        townSquare.setRoomItem(new Item("hat"));
+        forest.setRoomItem(new Item("wood"));
+        quarry.setRoomItem(new Item("pickaxe"));
+        quarry.setRoomItem(new Item("stone"));
+        quarry.setRoomItem(new Item("iron"));
+        quarry.setRoomItem(new Item("concrete"));
+        village.setRoomItem(new Item("paper"));
+        townSquare.setRoomItem(new Item("nail"));
+        brimhavenTown.setRoomItem(new Item("pens"));
+        brimhavenTown.setRoomItem(new Item("pipes"));
     }
 
     //Calls this method to play the game, it is a loop that runs until end of the game
@@ -261,10 +268,12 @@ public class Game {
         //Declares Item named newtItem and checks if currentRoom has an item named as the above stored variable 'item'
         //if the 'item' called by second command word is in the room it is stored in the variable newItem
         Item newItem = null;
+        int index =0;
         //Checks the ArrayList inventory to see if the second command word matches anything in the list
         for (int i = 0; i < inventory.size(); i++) {
             if (inventory.get(i).getDescription().equals(item)) {
                 newItem = inventory.get(i);
+                index = i;
             }
         }
 
@@ -277,11 +286,11 @@ public class Game {
             currentRoom.setRoomItem(new Item(item));
 
             //remove item from inventory
-            inventory.remove(item);
+            inventory.remove(index);
             System.out.println("You dropped: " + item);
         }
     }
-    private void buildItem(Command command) {
+    /*private void buildItem(Command command) {
         //If user only gives command word 'build', with no second command the following code is processed
         if (!command.hasSecondWord()) {
             System.out.println("Build what?");
@@ -323,6 +332,85 @@ public class Game {
                         }
                     }
                 }
+            }
+        }
+    }
+    */
+
+    // Build item
+    private void buildItem(Command command)
+    {
+        if (!command.hasSecondWord())       // If there is no second word, we don't know what to build
+        {
+            System.out.println("Build what?");
+            return;
+        }
+
+        String building = command.getSecondWord();
+        switch (building)
+        {
+
+            case "spring":
+            {
+                String[] buildingSpring =  {"wood","pickaxe","pipes"};
+                int counter = 0;
+
+                for (int i = 0; i<buildingSpring.length;i++)
+                {
+                    for(int j = 0;j<inventory.size();j++)
+
+                    {
+                        if(inventory.get(j).description.equals(buildingSpring[i]))
+                        {
+                            counter++;
+                        }
+                    }
+                }
+                if (counter == buildingSpring.length)
+                {
+                    System.out.println("You build the spring protection!");
+
+                    //add points to user's score
+                    score.setScore(20);
+
+                }else {
+                    System.out.println("You can't build the spring. ");
+                }
+                break;
+            }
+
+            case "poster":
+            {
+                String[] buildingPoster =  {"paper","pens","scissor","nail","hammer"};
+                int counter = 0;
+
+                for (int i = 0; i<buildingPoster.length;i++)
+                {
+                    for(int j = 0;j<inventory.size();j++)
+
+                    {
+                        if(inventory.get(j).description.equals(buildingPoster[i]))
+                        {
+                            counter++;
+                        }
+
+                    }
+                }
+                if (counter == buildingPoster.length)
+                {
+                    System.out.println("You just build a poster with info about sanitation!" +
+                            " Find it in your inventory");
+
+                    //add new item to inventory
+                    inventory.add(new Item("info-poster"));
+
+                    //add points to user's score
+                    score.setScore(20);
+
+                } else {
+                    System.out.println("You can't build the poster.");
+                }
+                break;
             }
         }
     }
