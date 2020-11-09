@@ -12,7 +12,10 @@ public class Game
     boolean build = true;
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 
+=======
+>>>>>>> parent of 09c7fa1... Merge pull request #2 from ValonMorina/Cecilie
 =======
 >>>>>>> parent of 09c7fa1... Merge pull request #2 from ValonMorina/Cecilie
     public Game()   // Creates the object "Game"
@@ -151,6 +154,7 @@ public class Game
             dropItem(command);
 
 <<<<<<< HEAD
+<<<<<<< HEAD
         }
         else if (commandWord == CommandWord.BUILD)
         {
@@ -158,10 +162,13 @@ public class Game
 
 =======
 >>>>>>> parent of 09c7fa1... Merge pull request #2 from ValonMorina/Cecilie
+=======
+>>>>>>> parent of 09c7fa1... Merge pull request #2 from ValonMorina/Cecilie
         }
         return wantToQuit;
     }
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 
 
@@ -202,12 +209,23 @@ public class Game
 
         String item = command.getSecondWord();
 
+=======
+    private void dropItem(Command command) {
+        if (!command.hasSecondWord()) {      // If there is no second word, we don't know what to drop
+            System.out.println("Drop what?");
+            return;
+        }
+
+        String item = command.getSecondWord();
+
+>>>>>>> parent of 09c7fa1... Merge pull request #2 from ValonMorina/Cecilie
         Item newItem = null;
         int index = 0;
         for (int i = 0; i<inventory.size(); i++) {
             if (inventory.get(i).getDescription().equals(item)) {
                 newItem = inventory.get(i);
                 index = i;
+<<<<<<< HEAD
 >>>>>>> parent of 09c7fa1... Merge pull request #2 from ValonMorina/Cecilie
             }
         }
@@ -233,6 +251,11 @@ public class Game
 
 =======
 >>>>>>> parent of 09c7fa1... Merge pull request #2 from ValonMorina/Cecilie
+=======
+            }
+        }
+
+>>>>>>> parent of 09c7fa1... Merge pull request #2 from ValonMorina/Cecilie
         if (newItem == null) {
             System.out.println("The item is not in your inventory");
         } else {
@@ -250,6 +273,7 @@ public class Game
         System.out.println("You are carrying: ");
         System.out.println(output);
     }
+<<<<<<< HEAD
 <<<<<<< HEAD
 
     private void getItem(Command command) {
@@ -277,6 +301,15 @@ public class Game
                 return;
             }
 
+=======
+
+        private void getItem(Command command) {
+            if (!command.hasSecondWord()) {      // If command does not has a second command, we don't know what to get
+                System.out.println("Get what?");
+                return;
+            }
+
+>>>>>>> parent of 09c7fa1... Merge pull request #2 from ValonMorina/Cecilie
             String item = command.getSecondWord();
 
             // Try to leave the room
@@ -289,6 +322,9 @@ public class Game
                 currentRoom.removeItem(item);
                 System.out.println("Picked up: " + item);
             }
+<<<<<<< HEAD
+>>>>>>> parent of 09c7fa1... Merge pull request #2 from ValonMorina/Cecilie
+=======
 >>>>>>> parent of 09c7fa1... Merge pull request #2 from ValonMorina/Cecilie
         }
 
@@ -304,6 +340,7 @@ public class Game
     }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 
     // Printing the strings declared in the method printHelp.
     private void printHelp()
@@ -315,6 +352,8 @@ public class Game
         parser.showCommands();
     }
 
+=======
+>>>>>>> parent of 09c7fa1... Merge pull request #2 from ValonMorina/Cecilie
 =======
 >>>>>>> parent of 09c7fa1... Merge pull request #2 from ValonMorina/Cecilie
     private void goRoom(Command command)

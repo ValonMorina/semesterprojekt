@@ -42,8 +42,13 @@ public class Room // Creates the class Room
             returnString += " " + exit;
         }
 <<<<<<< HEAD
+<<<<<<< HEAD
         returnString += "\nItems avaible in the room: \n";
         returnString += getRoomItems();
+=======
+            returnString += "\nItems avaible in the room: \n";
+            returnString += getRoomItems();
+>>>>>>> parent of 09c7fa1... Merge pull request #2 from ValonMorina/Cecilie
 =======
             returnString += "\nItems avaible in the room: \n";
             returnString += getRoomItems();
