@@ -366,6 +366,11 @@ public class Game {
                 }
                 break;
             }
+
+            case "well":
+            {
+
+            }
         }
     }
 }
