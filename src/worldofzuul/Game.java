@@ -1,5 +1,6 @@
 package worldofzuul;
 
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -297,7 +298,26 @@ public class Game {
     }
 
     private void talk() {
-        
+        if (currentRoom == townSquare)  {
+            System.out.println("Hi welcome to the game!");
+        }
+        else if (currentRoom == school) {
+            System.out.println("Hi my name is Sarah, I need your help making posters about sanitation");
+            System.out.println("Find the following items: paper, scissor, pens, hammer, nail");
+            System.out.println("Check your inventory to see what you already have, come back if you forget what you need.");
+        }
+
+
+
+
+        else if (currentRoom == spring)
+
+
+        }
+        else {
+            System.out.println("There are no one to talk to here");
+        }
+
     }
 
     // Build item
