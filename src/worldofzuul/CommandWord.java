@@ -8,7 +8,8 @@ public enum CommandWord {
     INVENTORY("inventory"),
     TAKE("take"),
     DROP("drop"),
-    BUILD ("build");
+    BUILD ("build"),
+    TALK("talk");
 
     //Data Field
     private String commandString;

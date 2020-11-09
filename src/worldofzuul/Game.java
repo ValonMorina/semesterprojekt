@@ -115,8 +115,10 @@ public class Game {
     private void printWelcome()
     {
         System.out.println();
-        System.out.println("Welcome to the World of Zuul!");
-        System.out.println("World of Zuul is a new, incredibly boring adventure game.");
+        System.out.println("Welcome to our little community!");
+        System.out.println("We are struggling with our water supply, it isn't clean. We need your help supplying everyone" +
+                " with clean water and sanitation.");
+        System.out.println("Go talk to some of the people in the different areas to learn more about how you can help!");
         System.out.println("Type '" + CommandWord.HELP + "' if you need help.");
         System.out.println(); //Empty line, creates space
         System.out.println(currentRoom.getLongDescription()); //Informs the user of the current room
@@ -156,6 +158,9 @@ public class Game {
         }
         else if (commandWord == CommandWord.DROP) {
             dropItem(command);
+        }
+        else if (commandWord == CommandWord.TALK) {
+            talk();
         }
         else if (commandWord == CommandWord.BUILD) {
             buildItem(command);
@@ -289,6 +294,10 @@ public class Game {
             inventory.remove(index);
             System.out.println("You dropped: " + item);
         }
+    }
+
+    private void talk() {
+        
     }
 
     // Build item

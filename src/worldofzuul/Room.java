@@ -50,7 +50,7 @@ public class Room {
             returnString += " " + exit;
         }
         //shows items in the room
-        returnString += "\nItems in the room:\n";
+        returnString += "\n\nItems in the room:\n";
         returnString += getRoomItems();
 
         return returnString;
