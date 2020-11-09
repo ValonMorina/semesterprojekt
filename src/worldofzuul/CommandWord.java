@@ -1,11 +1,19 @@
 package worldofzuul;
 
-public enum CommandWord
-{
-    GO("go"), QUIT("quit"), HELP("help"), UNKNOWN("?"), INVENTORY("inventory"),GET("get"),DROP("drop");
-
+public enum CommandWord {
+    GO("go"),
+    QUIT("quit"),
+    HELP("help"),
+    UNKNOWN("?"),
+    INVENTORY("inventory"),
+    TAKE("take"),
+    DROP("drop"),
+    BUILD ("build");
+}
+    //Data Field
     private String commandString;
 
+    //Constructor
     CommandWord(String commandString)
     {
         this.commandString = commandString;
