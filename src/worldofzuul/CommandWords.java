@@ -27,8 +27,7 @@ public class CommandWords
         }
     }
 
-    public boolean isCommand(String aString)
-    {
+    public boolean isCommand(String aString) {
         return validCommands.containsKey(aString);
     }
 

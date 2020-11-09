@@ -21,39 +21,38 @@ package worldofzuul;
 
 public class Command
 {
-    // Command is a object that holds two strings.
+    //Data fields
     private CommandWord commandWord;
     private String secondWord;
 
-
-    public Command(CommandWord commandWord, String secondWord)
-    {
+    //Constructor to create a command object
+    //First and second word must be provided, but one or both can be null.
+    //Null should be used to indicate that this was a command that the game does not recognize
+    public Command(CommandWord commandWord, String secondWord) {
         this.commandWord = commandWord;
         this.secondWord = secondWord;
     }
 
-    // Returns the commandWord (the first word)
-    public CommandWord getCommandWord()
-    {
+    // Return the command word (the first word) of this command
+    //If the word is not understood null is returned
+    public CommandWord getCommandWord() {
         return commandWord;
     }
 
-    // Returns secondWord.
-    public String getSecondWord()
-    {
+    // Return the second command word of this command
+    //If there is no second word it returns null
+    public String getSecondWord() {
         return secondWord;
     }
 
 
-    // Returns true if not understood
-    public boolean isUnknown()
-    {
+    // Returns true if the command is not understood
+    public boolean isUnknown() {
         return (commandWord == CommandWord.UNKNOWN);
     }
 
     // Returns true if the command has a SecondWord
-    public boolean hasSecondWord()
-    {
+    public boolean hasSecondWord() {
         return (secondWord != null);
     }
 }
