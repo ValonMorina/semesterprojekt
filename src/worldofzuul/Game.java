@@ -302,20 +302,15 @@ public class Game {
                                         if (inventory.get(i).getDescription().equals("nail")) {
                                             for (i = 4; i< inventory.size(); i++) {
                                                 if (inventory.get(i).getDescription().equals("hammer")) {
-
-                                                    //create 3 posters using for loop
-                                                    for (int k = 0; k < 3; k++) {
-                                                        //add new item to inventory
-                                                        inventory.add(new Item("info-poster"));
-                                                    }
+                                                    //add new item to inventory
+                                                    inventory.add(new Item("info-poster"));
 
                                                     //remove items from the inventory
 
 
-
                                                     //print message to user
-                                                    System.out.println("You just build 3 posters with info about " +
-                                                            "sanitation! Find them in your inventory");
+                                                    System.out.println("You just build a poster with info about sanitation!" +
+                                                            " Find it in your inventory");
 
                                                     //add points to user's score
                                                     score.setScore(20);
