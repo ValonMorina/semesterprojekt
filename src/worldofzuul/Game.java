@@ -108,7 +108,6 @@ public class Game {
         }
         //Message when game is ended
         System.out.println("Thank you for playing.  Good bye.");
-        System.out.println("Your score is: " + score.getScore()); //Prints user's score when quitting
     }
 
     //This method prints the opening message for the user
@@ -312,9 +311,6 @@ public class Game {
                                                     //add new item to inventory
                                                     inventory.add(new Item("info-poster"));
 
-                                                    //remove items from the inventory
-
-
                                                     //print message to user
                                                     System.out.println("You just build a poster with info about sanitation!" +
                                                             " Find it in your inventory");
@@ -331,6 +327,8 @@ public class Game {
                     }
                 }
             }
+            //If some items are missing, the following message is printed to the user
+            System.out.println("You don't have all the needed items yet, go find them");
         }
     }
 }
