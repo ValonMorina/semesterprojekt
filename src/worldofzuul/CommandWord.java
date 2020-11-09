@@ -9,7 +9,7 @@ public enum CommandWord {
     TAKE("take"),
     DROP("drop"),
     BUILD ("build");
-
+}
     //Data Field
     private String commandString;
 
