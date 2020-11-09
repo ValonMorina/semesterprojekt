@@ -8,6 +8,9 @@ public class Game
     private Room currentRoom;
     Room townSquare, village, brimhavenTown, quarry, spring, forest, river, toilet, school; // Generates the objects
     ArrayList<Item> inventory = new ArrayList<Item>();
+    String[] buildingSpring =  {"wood","pickaxe","pipes"};
+    boolean build = true;
+
 
     public Game()   // Creates the object "Game"
     {
@@ -145,8 +148,48 @@ public class Game
             dropItem(command);
 
         }
+        else if (commandWord == CommandWord.BUILD)
+        {
+            buildItem(command);
+
+        }
         return wantToQuit;
     }
+
+
+
+    // Build items
+    private void buildItem(Command command)
+    {
+        if (!command.hasSecondWord())       // If there is no second word, we don't know what to build
+        {
+            System.out.println("Build what?");
+            return;
+        }
+
+        String building = command.getSecondWord();
+        switch (building)
+        {
+            case "spring":
+            {
+                for (int i = 0; i<buildingSpring.length;i++)
+                {
+                    for(int j = 0;j<inventory.size();j++)
+
+                    {
+                        if(build && inventory.get(j).description.equals(buildingSpring[i]))
+                        {
+                            System.out.println("You build the spring protection!");
+                            build = false;
+
+                        }
+
+                    }
+                }
+            }
+        }
+    }
+
 
     private void dropItem(Command command) {
         if (!command.hasSecondWord()) {      // If there is no second word, we don't know what to drop
@@ -183,25 +226,25 @@ public class Game
         System.out.println(output);
     }
 
-        private void getItem(Command command) {
-            if (!command.hasSecondWord()) {      // If command does not has a second command, we don't know what to get
-                System.out.println("Get what?");
-                return;
-            }
-
-            String item = command.getSecondWord();
-
-            // Try to leave the room
-            Item newItem = currentRoom.getItem(item);
-
-            if (newItem == null) {     // We can't go that direction
-                System.out.println("The item is not here!");
-            } else {
-                inventory.add(newItem);
-                currentRoom.removeItem(item);
-                System.out.println("Picked up: " + item);
-            }
+    private void getItem(Command command) {
+        if (!command.hasSecondWord()) {      // If command does not has a second command, we don't know what to get
+            System.out.println("Get what?");
+            return;
         }
+
+        String item = command.getSecondWord();
+
+        // Try to leave the room
+        Item newItem = currentRoom.getItem(item);
+
+        if (newItem == null) {     // We can't go that direction
+            System.out.println("The item is not here!");
+        } else {
+            inventory.add(newItem);
+            currentRoom.removeItem(item);
+            System.out.println("Picked up: " + item);
+        }
+    }
 
 
     // Printing the strings declared in the method printHelp.
