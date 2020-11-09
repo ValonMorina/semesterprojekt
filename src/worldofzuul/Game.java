@@ -306,13 +306,10 @@ public class Game {
             System.out.println("Find the following items: paper, scissor, pens, hammer, nail");
             System.out.println("Check your inventory to see what you already have, come back if you forget what you need.");
         }
-
-
-
-
-        else if (currentRoom == spring)
-
-
+        else if (currentRoom == spring) {
+            System.out.println("Hi I'm Jennifer Lopez, nice to meet you!");
+            System.out.println("I am trying to build spring protection, for this beautiful spring to make the water clean.");
+            System.out.println("Can you get these items for me? Pickaxe, wood and pipes.");
         }
         else {
             System.out.println("There are no one to talk to here");
