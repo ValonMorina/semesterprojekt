@@ -376,7 +376,7 @@ public class Game {
                         String[] buildingPoster =  {"paper","pens","scissor","nail","hammer"};
                         int counter = 0;
 
-                        for (int i = 0; i<buildingPoster.length;i++)
+                        for (int i = 0; i < buildingPoster.length;i++)
                         {
                             for(int j = 0;j<inventory.size();j++)
 
