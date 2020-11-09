@@ -290,52 +290,6 @@ public class Game {
             System.out.println("You dropped: " + item);
         }
     }
-    /*private void buildItem(Command command) {
-        //If user only gives command word 'build', with no second command the following code is processed
-        if (!command.hasSecondWord()) {
-            System.out.println("Build what?");
-            return;
-        }
-
-        String secondWord = command.getSecondWord();
-        //Building the poster
-        if (secondWord.equals("poster")) {
-
-            for (int i=0; i< inventory.size(); i++) {
-                if (inventory.get(i).getDescription().equals("paper")) {
-                    for (i = 1; i< inventory.size(); i++) {
-                        if (inventory.get(i).getDescription().equals("pens")) {
-                            for (i = 2; i< inventory.size(); i++) {
-                                if (inventory.get(i).getDescription().equals("scissor")) {
-                                    for (i = 3; i< inventory.size(); i++) {
-                                        if (inventory.get(i).getDescription().equals("nail")) {
-                                            for (i = 4; i< inventory.size(); i++) {
-                                                if (inventory.get(i).getDescription().equals("hammer")) {
-                                                    //add new item to inventory
-                                                    inventory.add(new Item("info-poster"));
-
-                                                    //remove items from the inventory
-
-
-                                                    //print message to user
-                                                    System.out.println("You just build a poster with info about sanitation!" +
-                                                            " Find it in your inventory");
-
-                                                    //add points to user's score
-                                                    score.setScore(20);
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-    */
 
     // Build item
     private void buildItem(Command command)
