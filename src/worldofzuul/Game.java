@@ -366,6 +366,35 @@ public class Game {
                 }
                 break;
             }
+
+            case "well":
+            {
+                String[] buildingWell=  {"rocks","rope","bucket","wood","shovel"};
+                int counter = 0;
+
+                for (int i = 0; i<buildingWell.length;i++)
+                {
+                    for(int j = 0;j<inventory.size();j++)
+
+                    {
+                        if(inventory.get(j).description.equals(buildingWell[i]))
+                        {
+                            counter++;
+                        }
+                    }
+                }
+                if (counter == buildingWell.length)
+                {
+                    System.out.println("You build the well!");
+
+                    //add points to user's score
+                    score.setScore(20);
+
+                }else {
+                    System.out.println("You can't build the well. ");
+                }
+                break;
+            }
         }
     }
 }
