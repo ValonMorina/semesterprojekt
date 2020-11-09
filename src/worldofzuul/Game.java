@@ -1,33 +1,31 @@
 package worldofzuul;
 
 import java.util.ArrayList;
+import java.util.List;
 
-public class Game
-{
+public class Game {
+    //Data fields
     private Parser parser;
     private Room currentRoom;
-    Room townSquare, village, brimhavenTown, quarry, spring, forest, river, toilet, school; // Generates the objects
+
+    //Creates the room
+    //Putting the rooms out here makes it possible to manipulate them when items are added and removed from the room
+    Room townSquare, village, brimhavenTown, quarry, spring, forest, river, toilet, school;
+
+    //This ArrayList contains the users items, picked up items will be stored here
     ArrayList<Item> inventory = new ArrayList<Item>();
-    String[] buildingSpring =  {"wood","pickaxe","pipes"};
-    boolean build = true;
 
-<<<<<<< HEAD
-<<<<<<< HEAD
+    //Creates object Score to track user's points
+    Points score = new Points();
 
-=======
->>>>>>> parent of 09c7fa1... Merge pull request #2 from ValonMorina/Cecilie
-=======
->>>>>>> parent of 09c7fa1... Merge pull request #2 from ValonMorina/Cecilie
-    public Game()   // Creates the object "Game"
-    {
-        createRooms();
+    //Creates the game and initializes the map
+    public Game() {
+        createRooms(); //initializes the map
         parser = new Parser();
     }
 
-
-    private void createRooms()
-    {
-        // Declaring the rooms
+    private void createRooms() {
+        //Creates the room with a description
         townSquare = new Room("in Town Square");
         village = new Room("in a village");
         brimhavenTown = new Room("in Brimhaven Town");
@@ -39,7 +37,8 @@ public class Game
         school = new Room("now at the school");
 
 
-        // Initialise room exits
+        //Gives the room an exit command word paired with the new location the user will end up in if that word is used
+        //This relates the different rooms to one another
         townSquare.setExit("east", village);
         townSquare.setExit("south", river);
         townSquare.setExit("west", brimhavenTown);
@@ -73,265 +72,94 @@ public class Game
         school.setExit("south", townSquare);
         school.setExit("east", toilet);
 
+        //Sets the currentRoom to townSquare, this is used when starting the game
+        //currentRoom changes through out the game, always pointing at the room the user is currently in
+        currentRoom = townSquare;
 
-        currentRoom = townSquare;  // start game townSquare
-
-        // Adds objects in inventory
+        //User inventory
+        //here objects are created and added to the inventory, these will be in inventory from the start of the game
+        inventory.add(new Item("shovel")); //add is a method defined with arrayList
+        inventory.add(new Item("paper"));
+        inventory.add(new Item("pens"));
+        inventory.add(new Item("scissor"));
+        inventory.add(new Item("nail"));
         inventory.add(new Item("hammer"));
-        inventory.add(new Item("map"));
-        inventory.add(new Item("shovel"));
-        inventory.add(new Item("bucket"));
 
-        // Sets items in rooms
-        forest.setItem(new Item("wood"));
-        quarry.setItem(new Item("pickaxe"));
-        quarry.setItem(new Item("stone"));
-        quarry.setItem(new Item("iron"));
-        quarry.setItem(new Item("concrete"));
-        village.setItem(new Item("paper"));
-        townSquare.setItem(new Item("nail"));
-        brimhavenTown.setItem(new Item("pens"));
-        brimhavenTown.setItem(new Item("pipes"));
-
+        //Room inventory, sets items in the rooms, these can be picked up by the user
+        townSquare.setRoomItem(new Item("hat"));
     }
 
-    public void play()  // Method we call to play the game
-    {
-        printWelcome();
+    //Calls this method to play the game, it is a loop that runs until end of the game
+    public void play() {
+        printWelcome(); //Calls the printWelcome() method
 
+        //Repeatedly reads commands from console and executes them until game is over
         boolean finished = false;
         while (! finished) {
             Command command = parser.getCommand();
             finished = processCommand(command);
         }
+        //Message when game is ended
         System.out.println("Thank you for playing.  Good bye.");
+        System.out.println("Your score is: " + score.getScore()); //Prints user's score when quitting
     }
 
-    private void printWelcome() // Prints out the strings in the method printWelcome.
+    //This method prints the opening message for the user
+    private void printWelcome()
     {
         System.out.println();
         System.out.println("Welcome to the World of Zuul!");
         System.out.println("World of Zuul is a new, incredibly boring adventure game.");
         System.out.println("Type '" + CommandWord.HELP + "' if you need help.");
-        System.out.println();
-        System.out.println(currentRoom.getLongDescription());
+        System.out.println(); //Empty line, creates space
+        System.out.println(currentRoom.getLongDescription()); //Informs the user of the current room
     }
 
-    private boolean processCommand(Command command) // processCommand takes two commands and operates on them.
-    {
+    //Processes (executes) the commands given by the user
+
+    private boolean processCommand(Command command) {// processCommand takes two commands and operates on them.
         boolean wantToQuit = false; // Declaring the variable wantToQuit
 
         CommandWord commandWord = command.getCommandWord();
 
+        //If invalid commandWord is given the following code is executed
         if(commandWord == CommandWord.UNKNOWN) {
             System.out.println("I don't know what you mean...");
-            return false;
+            return false; //Keeps wantToQuit false
         }
-
-        // Checking input
-        if (commandWord == CommandWord.HELP)
-        {
+        //If commandWord is help, execute method printHelp()
+        if (commandWord == CommandWord.HELP) {
             printHelp();
         }
-        else if (commandWord == CommandWord.GO)
-        {
+        //If commandWord is go, execute method goRoom(command)
+        else if (commandWord == CommandWord.GO) {
             goRoom(command);
         }
-        else if (commandWord == CommandWord.QUIT)
-        {
+        //If commandWord is quit, the program executes the method quit(command) and sets the boolean variable wantToQuit
+        //to the result of the quit(command) method
+        else if (commandWord == CommandWord.QUIT) {
             wantToQuit = quit(command);
         }
-        else if (commandWord == CommandWord.INVENTORY)
-        {
+        //If commandWord is inventory the program executes the method printInventory()
+        else if (commandWord == CommandWord.INVENTORY) {
             printInventory();
         }
-        else if (commandWord == CommandWord.GET)
-        {
-            getItem(command);
+        else if (commandWord == CommandWord.TAKE) {
+            takeItem(command);
         }
-        else if (commandWord == CommandWord.DROP)
-        {
+        else if (commandWord == CommandWord.DROP) {
             dropItem(command);
-
-<<<<<<< HEAD
-<<<<<<< HEAD
         }
-        else if (commandWord == CommandWord.BUILD)
-        {
+        else if (commandWord == CommandWord.BUILD) {
             buildItem(command);
-
-=======
->>>>>>> parent of 09c7fa1... Merge pull request #2 from ValonMorina/Cecilie
-=======
->>>>>>> parent of 09c7fa1... Merge pull request #2 from ValonMorina/Cecilie
         }
         return wantToQuit;
     }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
 
-
-    // Build items
-    private void buildItem(Command command)
-    {
-        if (!command.hasSecondWord())       // If there is no second word, we don't know what to build
-        {
-            System.out.println("Build what?");
-            return;
-        }
-
-        String building = command.getSecondWord();
-        switch (building)
-        {
-            case "spring":
-            {
-                for (int i = 0; i<buildingSpring.length;i++)
-                {
-                    for(int j = 0;j<inventory.size();j++)
-
-                    {
-                        if(build && inventory.get(j).description.equals(buildingSpring[i]))
-                        {
-                            System.out.println("You build the spring protection!");
-                            build = false;
-
-                        }
-
-                    }
-                }
-=======
-    private void dropItem(Command command) {
-        if (!command.hasSecondWord()) {      // If there is no second word, we don't know what to drop
-            System.out.println("Drop what?");
-            return;
-        }
-
-        String item = command.getSecondWord();
-
-=======
-    private void dropItem(Command command) {
-        if (!command.hasSecondWord()) {      // If there is no second word, we don't know what to drop
-            System.out.println("Drop what?");
-            return;
-        }
-
-        String item = command.getSecondWord();
-
->>>>>>> parent of 09c7fa1... Merge pull request #2 from ValonMorina/Cecilie
-        Item newItem = null;
-        int index = 0;
-        for (int i = 0; i<inventory.size(); i++) {
-            if (inventory.get(i).getDescription().equals(item)) {
-                newItem = inventory.get(i);
-                index = i;
-<<<<<<< HEAD
->>>>>>> parent of 09c7fa1... Merge pull request #2 from ValonMorina/Cecilie
-            }
-        }
-
-<<<<<<< HEAD
-
-    private void dropItem(Command command) {
-        if (!command.hasSecondWord()) {      // If there is no second word, we don't know what to drop
-            System.out.println("Drop what?");
-            return;
-        }
-
-        String item = command.getSecondWord();
-
-        Item newItem = null;
-        int index = 0;
-        for (int i = 0; i<inventory.size(); i++) {
-            if (inventory.get(i).getDescription().equals(item)) {
-                newItem = inventory.get(i);
-                index = i;
-            }
-        }
-
-=======
->>>>>>> parent of 09c7fa1... Merge pull request #2 from ValonMorina/Cecilie
-=======
-            }
-        }
-
->>>>>>> parent of 09c7fa1... Merge pull request #2 from ValonMorina/Cecilie
-        if (newItem == null) {
-            System.out.println("The item is not in your inventory");
-        } else {
-            inventory.remove(index);
-            currentRoom.setItem(new Item(item));
-            System.out.println("Dropped: " + item);
-        }
-    }
-
-    private void printInventory() {
-        String output = "";
-        for(int i = 0; i<inventory.size();i++) {
-            output += inventory.get(i).getDescription() + " ";
-        }
-        System.out.println("You are carrying: ");
-        System.out.println(output);
-    }
-<<<<<<< HEAD
-<<<<<<< HEAD
-
-    private void getItem(Command command) {
-        if (!command.hasSecondWord()) {      // If command does not has a second command, we don't know what to get
-            System.out.println("Get what?");
-            return;
-        }
-
-        String item = command.getSecondWord();
-
-        // Try to leave the room
-        Item newItem = currentRoom.getItem(item);
-
-        if (newItem == null) {     // We can't go that direction
-            System.out.println("The item is not here!");
-        } else {
-            inventory.add(newItem);
-            currentRoom.removeItem(item);
-            System.out.println("Picked up: " + item);
-=======
-
-        private void getItem(Command command) {
-            if (!command.hasSecondWord()) {      // If command does not has a second command, we don't know what to get
-                System.out.println("Get what?");
-                return;
-            }
-
-=======
-
-        private void getItem(Command command) {
-            if (!command.hasSecondWord()) {      // If command does not has a second command, we don't know what to get
-                System.out.println("Get what?");
-                return;
-            }
-
->>>>>>> parent of 09c7fa1... Merge pull request #2 from ValonMorina/Cecilie
-            String item = command.getSecondWord();
-
-            // Try to leave the room
-            Item newItem = currentRoom.getItem(item);
-
-            if (newItem == null) {     // We can't go that direction
-                System.out.println("The item is not here!");
-            } else {
-                inventory.add(newItem);
-                currentRoom.removeItem(item);
-                System.out.println("Picked up: " + item);
-            }
-<<<<<<< HEAD
->>>>>>> parent of 09c7fa1... Merge pull request #2 from ValonMorina/Cecilie
-=======
->>>>>>> parent of 09c7fa1... Merge pull request #2 from ValonMorina/Cecilie
-        }
-
-
-    // Printing the strings declared in the method printHelp.
-    private void printHelp()
-    {
+    //Following method is activated by the commandWord help
+    private void printHelp() {
+        // Printing the strings declared in the method printHelp()
         System.out.println("You are lost. You are alone. You wander");
         System.out.println("around in Town Square.");
         System.out.println();
@@ -339,51 +167,163 @@ public class Game
         parser.showCommands();
     }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-
-    // Printing the strings declared in the method printHelp.
-    private void printHelp()
-    {
-        System.out.println("You are lost. You are alone. You wander");
-        System.out.println("around in Town Square.");
-        System.out.println();
-        System.out.println("Your command words are:");
-        parser.showCommands();
-    }
-
-=======
->>>>>>> parent of 09c7fa1... Merge pull request #2 from ValonMorina/Cecilie
-=======
->>>>>>> parent of 09c7fa1... Merge pull request #2 from ValonMorina/Cecilie
-    private void goRoom(Command command)
-    {
-        if(!command.hasSecondWord()) {      // If command does not has a second command, we print "Go where?".
+    //Following method is activated by the commandWord go
+    private void goRoom(Command command) {
+        //If user only gives command word 'go', with no second command the following code is processed
+        if(!command.hasSecondWord()) {
             System.out.println("Go where?");
             return;
         }
 
-        String direction = command.getSecondWord();     // Sets direction
+        //Stores second command in a String named direction
+        String direction = command.getSecondWord();
 
-        Room nextRoom = currentRoom.getExit(direction);    // Checks if we can go that direction
+        //Declares Room named nextRoom and checks if currentRoom has an exit named as the above stored variable direction
+        Room nextRoom = currentRoom.getExit(direction);
 
-        if (nextRoom == null) {     // We can't go that direction
+        //if the user gives command word go and a second command that is invalid the following code is processed
+        if (nextRoom == null) {
             System.out.println("There is no door!");
         }
         else {
-            currentRoom = nextRoom;     // We can go this direction
+            //Sets variable nextRoom as currentRoom, this is what moves the user
+            currentRoom = nextRoom;
+            //Tells the user where they are now and the exits using method .getLongDescription()
             System.out.println(currentRoom.getLongDescription());
         }
     }
 
-    private boolean quit(Command command)
-    {
+    //Following method is activated by the commandWord quit
+    private boolean quit(Command command) {
+        //If user writes a second command word after quit the following code is executed
         if(command.hasSecondWord()) {
             System.out.println("Quit what?");
             return false; // Does not quit
         }
+        //if only commandWord quit it written the following code is executed and the game ends
         else {
-            return true;    // Quits
+            return true; //Quits
+        }
+    }
+
+    //This method is executed when commandWord inventory is written by user
+    private void printInventory() {
+        String output = ""; //these "" initializes the variable to be empty
+        //Runs through the arrayList named inventory and prints every item in the list
+        for (int i = 0; i < inventory.size(); i++) {
+            //checks inventory for the current value of i, if something is stored there it is added to the String
+            //variable 'output' and using the getDescription() method it is turned into a String
+            output += inventory.get(i).getDescription() + " "; //" " at the end leaves a space between printed items
+        }
+        System.out.println("Your inventory contains: ");
+        //if statement checks if inventory is empty by checking whether or not the value of 'output' has been changed
+        if (output == "") {
+            System.out.println("Nothing, go pick up some items"); //prints message if inventory is empty
+        }
+        else {
+            System.out.println(output); //prints the inventory
+        }
+    }
+    private void takeItem(Command command) {
+        //If user only gives command word 'drop', with no second command the following code is processed
+        if (!command.hasSecondWord()) {
+            System.out.println("Take what?");
+            return;
+        }
+        //Stores second command word in a String named item
+        String item = command.getSecondWord();
+
+        //Declares Item named newtItem and checks if currentRoom has an item named as the above stored variable 'item'
+        //if the 'item' called by second command word is in the room it is stored in the variable newItem
+        Item newItem = currentRoom.getRoomItem(item);
+
+        if (newItem == null) {
+            System.out.println("That item is not in the room!");
+        }
+        else {
+            //add to inventory
+            inventory.add(newItem);
+            //remove item from room
+            currentRoom.removeRoomItem(item);
+            System.out.println("You picked up: " + item);
+        }
+    }
+
+    private void dropItem(Command command) {
+        //If user only gives command word 'take', with no second command the following code is processed
+        if (!command.hasSecondWord()) {
+            System.out.println("Drop what?");
+            return;
+        }
+        //Stores second command word in a String named item
+        String item = command.getSecondWord();
+
+        //Declares Item named newtItem and checks if currentRoom has an item named as the above stored variable 'item'
+        //if the 'item' called by second command word is in the room it is stored in the variable newItem
+        Item newItem = null;
+        //Checks the ArrayList inventory to see if the second command word matches anything in the list
+        for (int i = 0; i < inventory.size(); i++) {
+            if (inventory.get(i).getDescription().equals(item)) {
+                newItem = inventory.get(i);
+            }
+        }
+
+        if (newItem == null) {
+            System.out.println("You don't have that item in your inventory");
+        }
+        else {
+            //add Item to currentRoom
+            //creates a new object of the class Item with the description of the second command word
+            currentRoom.setRoomItem(new Item(item));
+
+            //remove item from inventory
+            inventory.remove(item);
+            System.out.println("You dropped: " + item);
+        }
+    }
+    private void buildItem(Command command) {
+        //If user only gives command word 'build', with no second command the following code is processed
+        if (!command.hasSecondWord()) {
+            System.out.println("Build what?");
+            return;
+        }
+
+        String secondWord = command.getSecondWord();
+        //Building the poster
+        if (secondWord.equals("poster")) {
+
+            for (int i=0; i< inventory.size(); i++) {
+                if (inventory.get(i).getDescription().equals("paper")) {
+                    for (i = 1; i< inventory.size(); i++) {
+                        if (inventory.get(i).getDescription().equals("pens")) {
+                            for (i = 2; i< inventory.size(); i++) {
+                                if (inventory.get(i).getDescription().equals("scissor")) {
+                                    for (i = 3; i< inventory.size(); i++) {
+                                        if (inventory.get(i).getDescription().equals("nail")) {
+                                            for (i = 4; i< inventory.size(); i++) {
+                                                if (inventory.get(i).getDescription().equals("hammer")) {
+                                                    //add new item to inventory
+                                                    inventory.add(new Item("info-poster"));
+
+                                                    //remove items from the inventory
+
+
+                                                    //print message to user
+                                                    System.out.println("You just build a poster with info about sanitation!" +
+                                                            " Find it in your inventory");
+
+                                                    //add points to user's score
+                                                    score.setScore(20);
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 }
