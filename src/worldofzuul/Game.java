@@ -81,19 +81,14 @@ public class Game {
         //User inventory
         //here objects are created and added to the inventory, these will be in inventory from the start of the game
         inventory.add(new Item("hammer"));
-        inventory.add(new Item("map"));
         inventory.add(new Item("shovel"));
         inventory.add(new Item("bucket"));
 
-        //TESTING: LAZY
-        inventory.add(new Item("pickaxe"));
-        inventory.add(new Item("wood"));
-        inventory.add(new Item("pipes"));
 
         //Room inventory, sets items in the rooms, these can be picked up by the user
         forest.setRoomItem(new Item("wood"));
         quarry.setRoomItem(new Item("pickaxe"));
-        quarry.setRoomItem(new Item("stone"));
+        quarry.setRoomItem(new Item("rocks"));
         quarry.setRoomItem(new Item("iron"));
         quarry.setRoomItem(new Item("concrete"));
         village.setRoomItem(new Item("paper"));
@@ -178,9 +173,6 @@ public class Game {
     //Following method is activated by the commandWord help
     private void printHelp() {
         // Printing the strings declared in the method printHelp()
-        System.out.println("You are lost. You are alone. You wander");
-        System.out.println("around in Town Square.");
-        System.out.println();
         System.out.println("Your command words are:");
         parser.showCommands();
     }
