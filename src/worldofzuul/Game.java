@@ -1,5 +1,6 @@
 package worldofzuul;
 
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -84,6 +85,11 @@ public class Game {
         inventory.add(new Item("shovel"));
         inventory.add(new Item("bucket"));
 
+        //TESTING: LAZY
+        inventory.add(new Item("pickaxe"));
+        inventory.add(new Item("wood"));
+        inventory.add(new Item("pipes"));
+
         //Room inventory, sets items in the rooms, these can be picked up by the user
         forest.setRoomItem(new Item("wood"));
         quarry.setRoomItem(new Item("pickaxe"));
@@ -115,8 +121,10 @@ public class Game {
     private void printWelcome()
     {
         System.out.println();
-        System.out.println("Welcome to the World of Zuul!");
-        System.out.println("World of Zuul is a new, incredibly boring adventure game.");
+        System.out.println("Welcome to our little community!");
+        System.out.println("We are struggling with our water supply, it isn't clean. We need your help supplying everyone" +
+                " with clean water and sanitation.");
+        System.out.println("Go talk to some of the people in the different areas to learn more about how you can help!");
         System.out.println("Type '" + CommandWord.HELP + "' if you need help.");
         System.out.println(); //Empty line, creates space
         System.out.println(currentRoom.getLongDescription()); //Informs the user of the current room
@@ -156,6 +164,9 @@ public class Game {
         }
         else if (commandWord == CommandWord.DROP) {
             dropItem(command);
+        }
+        else if (commandWord == CommandWord.TALK) {
+            talk();
         }
         else if (commandWord == CommandWord.BUILD) {
             buildItem(command);
@@ -291,6 +302,32 @@ public class Game {
         }
     }
 
+    //Method talk prints messages to the user, the message depends on currentRoom
+    private void talk() {
+        if (currentRoom == townSquare)  {
+            System.out.println("Hi welcome to the game!");
+        }
+        else if (currentRoom == school) {
+            System.out.println("Hi my name is Sarah, I need your help making posters about sanitation");
+            System.out.println("Find the following items: paper, scissor, pens, hammer, nail");
+            System.out.println("Check your inventory to see what you already have, come back if you forget what you need.");
+        }
+        else if (currentRoom == spring) {
+            System.out.println("Hi I'm Jennifer Lopez, nice to meet you!");
+            System.out.println("I am trying to build spring protection, for this beautiful spring to make the water clean.");
+            System.out.println("Can you get these items for me? Pickaxe, wood and pipes.");
+        }
+        else if (currentRoom == village) {
+            System.out.println("Hi there! I'm Tony.");
+            System.out.println("I am trying to build a well to supply the village with clean water, but I need a few items.");
+            System.out.println("Please go find rocks, rope, bucket, wood and shovel");
+        }
+        else {
+            System.out.println("There are no one to talk to here");
+        }
+
+    }
+
     // Build item
     private void buildItem(Command command)
     {
@@ -305,97 +342,110 @@ public class Game {
         {
 
             case "spring":
-            {
-                String[] buildingSpring =  {"wood","pickaxe","pipes"};
-                int counter = 0;
-
-                for (int i = 0; i<buildingSpring.length;i++)
-                {
-                    for(int j = 0;j<inventory.size();j++)
-
+                if (currentRoom == spring) {
                     {
-                        if(inventory.get(j).description.equals(buildingSpring[i]))
+                        String[] buildingSpring =  {"wood","pickaxe","pipes"};
+                        int counter = 0;
+
+                        for (int i = 0; i<buildingSpring.length;i++)
                         {
-                            counter++;
+                            for(int j = 0;j<inventory.size();j++)
+
+                            {
+                                if(inventory.get(j).description.equals(buildingSpring[i]))
+                                {
+                                    counter++;
+                                }
+                            }
+                        }
+                        if (counter == buildingSpring.length)
+                        {
+                            System.out.println("You build the spring protection!");
+
+                            //add points to user's score
+                            score.setScore(20);
+
+                        }else {
+                            System.out.println("You can't build the spring. ");
                         }
                     }
                 }
-                if (counter == buildingSpring.length)
-                {
-                    System.out.println("You build the spring protection!");
-
-                    //add points to user's score
-                    score.setScore(20);
-
-                }else {
-                    System.out.println("You can't build the spring. ");
+                else {
+                    System.out.println("You are in the wrong location, go to the spring to build the spring protection");
                 }
                 break;
-            }
 
             case "poster":
-            {
-                String[] buildingPoster =  {"paper","pens","scissor","nail","hammer"};
-                int counter = 0;
-
-                for (int i = 0; i<buildingPoster.length;i++)
-                {
-                    for(int j = 0;j<inventory.size();j++)
-
+                if (currentRoom == school) {
                     {
-                        if(inventory.get(j).description.equals(buildingPoster[i]))
-                        {
-                            counter++;
-                        }
+                        String[] buildingPoster =  {"paper","pens","scissor","nail","hammer"};
+                        int counter = 0;
 
+                        for (int i = 0; i<buildingPoster.length;i++)
+                        {
+                            for(int j = 0;j<inventory.size();j++)
+
+                            {
+                                if(inventory.get(j).description.equals(buildingPoster[i]))
+                                {
+                                    counter++;
+                                }
+
+                            }
+                        }
+                        if (counter == buildingPoster.length)
+                        {
+                            System.out.println("You just build a poster with info about sanitation!" +
+                                    " Find it in your inventory");
+
+                            //add new item to inventory
+                            inventory.add(new Item("info-poster"));
+
+                            //add points to user's score
+                            score.setScore(20);
+
+                        } else {
+                            System.out.println("You can't build the poster.");
+                        }
                     }
                 }
-                if (counter == buildingPoster.length)
-                {
-                    System.out.println("You just build a poster with info about sanitation!" +
-                            " Find it in your inventory");
-
-                    //add new item to inventory
-                    inventory.add(new Item("info-poster"));
-
-                    //add points to user's score
-                    score.setScore(20);
-
-                } else {
-                    System.out.println("You can't build the poster.");
+                else {
+                    System.out.println("You are in the wrong location, go to the school to make the poster");
                 }
                 break;
-            }
 
             case "well":
-            {
-
-                String[] buildingWell=  {"rocks","rope","bucket","wood","shovel"};
-                int counter = 0;
-
-                for (int i = 0; i<buildingWell.length;i++)
-                {
-                    for(int j = 0;j<inventory.size();j++)
-
+                if (currentRoom == village)
                     {
-                        if(inventory.get(j).description.equals(buildingWell[i]))
+                        String[] buildingWell=  {"rocks","rope","bucket","wood","shovel"};
+                        int counter = 0;
+
+                        for (int i = 0; i<buildingWell.length;i++)
                         {
-                            counter++;
+                            for(int j = 0;j<inventory.size();j++)
+
+                            {
+                                if(inventory.get(j).description.equals(buildingWell[i]))
+                                {
+                                    counter++;
+                                }
+                            }
+                        }
+                        if (counter == buildingWell.length)
+                        {
+                            System.out.println("You build the well!");
+
+                            //add points to user's score
+                            score.setScore(20);
+
+                        } else {
+                            System.out.println("You can't build the well. ");
                         }
                     }
-                }
-                if (counter == buildingWell.length)
-                {
-                    System.out.println("You build the well!");
-
-                    //add points to user's score
-                    score.setScore(20);
-
-                }else {
-                    System.out.println("You can't build the well. ");
+                else {
+                    System.out.println("You are in the wrong location, go to the village to build the well");
                 }
                 break;
-            }
         }
     }
 }
