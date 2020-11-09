@@ -369,6 +369,7 @@ public class Game {
 
             case "well":
             {
+
                 String[] buildingWell=  {"rocks","rope","bucket","wood","shovel"};
                 int counter = 0;
 
