@@ -41,8 +41,13 @@ public class Room // Creates the class Room
         for(String exit : keys) {
             returnString += " " + exit;
         }
+<<<<<<< HEAD
         returnString += "\nItems avaible in the room: \n";
         returnString += getRoomItems();
+=======
+            returnString += "\nItems avaible in the room: \n";
+            returnString += getRoomItems();
+>>>>>>> parent of 09c7fa1... Merge pull request #2 from ValonMorina/Cecilie
 
         return returnString;
     }

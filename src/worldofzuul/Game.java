@@ -11,7 +11,10 @@ public class Game
     String[] buildingSpring =  {"wood","pickaxe","pipes"};
     boolean build = true;
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> parent of 09c7fa1... Merge pull request #2 from ValonMorina/Cecilie
     public Game()   // Creates the object "Game"
     {
         createRooms();
@@ -147,15 +150,19 @@ public class Game
         {
             dropItem(command);
 
+<<<<<<< HEAD
         }
         else if (commandWord == CommandWord.BUILD)
         {
             buildItem(command);
 
+=======
+>>>>>>> parent of 09c7fa1... Merge pull request #2 from ValonMorina/Cecilie
         }
         return wantToQuit;
     }
 
+<<<<<<< HEAD
 
 
     // Build items
@@ -186,10 +193,26 @@ public class Game
 
                     }
                 }
+=======
+    private void dropItem(Command command) {
+        if (!command.hasSecondWord()) {      // If there is no second word, we don't know what to drop
+            System.out.println("Drop what?");
+            return;
+        }
+
+        String item = command.getSecondWord();
+
+        Item newItem = null;
+        int index = 0;
+        for (int i = 0; i<inventory.size(); i++) {
+            if (inventory.get(i).getDescription().equals(item)) {
+                newItem = inventory.get(i);
+                index = i;
+>>>>>>> parent of 09c7fa1... Merge pull request #2 from ValonMorina/Cecilie
             }
         }
-    }
 
+<<<<<<< HEAD
 
     private void dropItem(Command command) {
         if (!command.hasSecondWord()) {      // If there is no second word, we don't know what to drop
@@ -208,6 +231,8 @@ public class Game
             }
         }
 
+=======
+>>>>>>> parent of 09c7fa1... Merge pull request #2 from ValonMorina/Cecilie
         if (newItem == null) {
             System.out.println("The item is not in your inventory");
         } else {
@@ -225,6 +250,7 @@ public class Game
         System.out.println("You are carrying: ");
         System.out.println(output);
     }
+<<<<<<< HEAD
 
     private void getItem(Command command) {
         if (!command.hasSecondWord()) {      // If command does not has a second command, we don't know what to get
@@ -243,8 +269,28 @@ public class Game
             inventory.add(newItem);
             currentRoom.removeItem(item);
             System.out.println("Picked up: " + item);
+=======
+
+        private void getItem(Command command) {
+            if (!command.hasSecondWord()) {      // If command does not has a second command, we don't know what to get
+                System.out.println("Get what?");
+                return;
+            }
+
+            String item = command.getSecondWord();
+
+            // Try to leave the room
+            Item newItem = currentRoom.getItem(item);
+
+            if (newItem == null) {     // We can't go that direction
+                System.out.println("The item is not here!");
+            } else {
+                inventory.add(newItem);
+                currentRoom.removeItem(item);
+                System.out.println("Picked up: " + item);
+            }
+>>>>>>> parent of 09c7fa1... Merge pull request #2 from ValonMorina/Cecilie
         }
-    }
 
 
     // Printing the strings declared in the method printHelp.
@@ -257,6 +303,20 @@ public class Game
         parser.showCommands();
     }
 
+<<<<<<< HEAD
+
+    // Printing the strings declared in the method printHelp.
+    private void printHelp()
+    {
+        System.out.println("You are lost. You are alone. You wander");
+        System.out.println("around in Town Square.");
+        System.out.println();
+        System.out.println("Your command words are:");
+        parser.showCommands();
+    }
+
+=======
+>>>>>>> parent of 09c7fa1... Merge pull request #2 from ValonMorina/Cecilie
     private void goRoom(Command command)
     {
         if(!command.hasSecondWord()) {      // If command does not has a second command, we print "Go where?".
