@@ -1,8 +1,6 @@
 package worldofzuul;
 
-import javax.swing.*;
 import java.util.ArrayList;
-import java.util.List;
 
 public class Game {
     //Data fields
@@ -17,8 +15,11 @@ public class Game {
     ArrayList<Item> inventory = new ArrayList<Item>();
 
 
-    //Creates object Score to track user's points
-    Points score = new Points();
+    //Creates objects of the Point class
+    //Points granted for completed quests
+    Points questScore = new Points();
+    //Points for health status
+    Points healthScore = new Points();
 
     //Creates the game and initializes the map
     public Game() {
@@ -84,7 +85,6 @@ public class Game {
         inventory.add(new Item("shovel"));
         inventory.add(new Item("bucket"));
 
-
         //Room inventory, sets items in the rooms, these can be picked up by the user
         forest.setRoomItem(new Item("wood"));
         quarry.setRoomItem(new Item("pickaxe"));
@@ -92,7 +92,7 @@ public class Game {
         quarry.setRoomItem(new Item("iron"));
         quarry.setRoomItem(new Item("concrete"));
         village.setRoomItem(new Item("paper"));
-        townSquare.setRoomItem(new Item("nail"));
+        townSquare.setRoomItem(new Item("nails"));
         brimhavenTown.setRoomItem(new Item("pens"));
         brimhavenTown.setRoomItem(new Item("pipes"));
     }
@@ -109,7 +109,7 @@ public class Game {
         }
         //Message when game is ended
         System.out.println("Thank you for playing.  Good bye.");
-        System.out.println("Your score is: " + score.getScore()); //Prints user's score when quitting
+        System.out.println("Your score is: " + questScore.getScore()); //Prints user's score when quitting
     }
 
     //This method prints the opening message for the user
@@ -165,6 +165,10 @@ public class Game {
         }
         else if (commandWord == CommandWord.BUILD) {
             buildItem(command);
+        }
+        else if (commandWord == CommandWord.SCORE) {
+            System.out.println("Quest score: " + questScore.getScore());
+            System.out.println("Village health score: " + healthScore.getScore());
         }
         return wantToQuit;
     }
@@ -338,7 +342,7 @@ public class Game {
 
             case "spring":
                 if (currentRoom == spring) {
-                    {
+                    {   //Array of objects needed to build spring
                         String[] buildingSpring =  {"wood","pickaxe","pipes"};
                         int counter = 0;
 
@@ -358,7 +362,8 @@ public class Game {
                             System.out.println("You build the spring protection! \nYou get 20 points");
 
                             //add points to user's score
-                            score.setScore(20);
+                            questScore.setScore(20);
+                            healthScore.setScore(10);
 
                         }else {
                             System.out.println("You can't build the spring. ");
@@ -373,7 +378,7 @@ public class Game {
             case "poster":
                 if (currentRoom == school) {
                     {
-                        String[] buildingPoster =  {"paper","pens","scissor","nail","hammer"};
+                        String[] buildingPoster =  {"paper","pens","scissor","nails","hammer"};
                         int counter = 0;
 
                         for (int i = 0; i < buildingPoster.length;i++)
@@ -397,7 +402,8 @@ public class Game {
                             inventory.add(new Item("info-poster"));
 
                             //add points to user's score
-                            score.setScore(20);
+                            questScore.setScore(20);
+                            healthScore.setScore(10);
 
                         } else {
                             System.out.println("You can't build the poster.");
@@ -431,7 +437,8 @@ public class Game {
                             System.out.println("You build the well! \nYou get 20 points");
 
                             //add points to user's score
-                            score.setScore(20);
+                            questScore.setScore(20);
+                            healthScore.setScore(10);
 
                         } else {
                             System.out.println("You can't build the well.");
