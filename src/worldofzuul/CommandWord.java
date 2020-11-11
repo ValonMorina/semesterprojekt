@@ -9,7 +9,8 @@ public enum CommandWord {
     TAKE("take"),
     DROP("drop"),
     BUILD ("build"),
-    TALK("talk");
+    TALK("talk"),
+    SCORE("score");
 
     //Data Field
     private String commandString;
