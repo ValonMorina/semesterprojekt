@@ -1,21 +1,17 @@
 package worldofzuul;
 
 import java.util.Scanner;
-import java.util.StringTokenizer;
 
-public class Parser
-{
+public class Parser {
     private CommandWords commands;
     private Scanner reader;
 
-    public Parser()
-    {
+    public Parser() {
         commands = new CommandWords();
         reader = new Scanner(System.in);
     }
 
-    public Command getCommand()
-    {
+    public Command getCommand() {
         String inputLine;
         String word1 = null;
         String word2 = null;
