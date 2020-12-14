@@ -20,6 +20,7 @@ public class Game {
     Points questScore = new Points();
     //Points for health status
     Points healthScore = new Points();
+    private Item wood = new Item("wood");
 
     //Creates the game and initializes the map
     public Game() {
@@ -86,7 +87,7 @@ public class Game {
         inventory.add(new Item("bucket"));
 
         //Room inventory, sets items in the rooms, these can be picked up by the user
-        forest.setRoomItem(new Item("wood"));
+        forest.setRoomItem(wood);
         quarry.setRoomItem(new Item("pickaxe"));
         quarry.setRoomItem(new Item("rocks"));
         quarry.setRoomItem(new Item("iron"));
@@ -220,7 +221,9 @@ public class Game {
         }
     }
 
-    //This method is executed when commandWord inventory is written by user
+    /**
+    This method is executed when commandWord inventory is written by user
+     */
     private void printInventory() {
         String output = ""; //these "" initializes the variable to be empty
         //Runs through the arrayList named inventory and prints every item in the list
@@ -238,6 +241,11 @@ public class Game {
             System.out.println(output); //prints the inventory
         }
     }
+
+    /**
+     *
+     * @param command input by user
+     */
     private void takeItem(Command command) {
         //If user only gives command word 'drop', with no second command the following code is processed
         if (!command.hasSecondWord()) {
@@ -346,10 +354,11 @@ public class Game {
                         String[] buildingSpring =  {"wood","pickaxe","pipes"};
                         int counter = 0;
 
+                        inventory.contains(wood);
+
                         for (int i = 0; i<buildingSpring.length;i++)
                         {
-                            for(int j = 0;j<inventory.size();j++)
-
+                            for(int j = 0; j<inventory.size(); j++)
                             {
                                 if(inventory.get(j).description.equals(buildingSpring[i]))
                                 {
