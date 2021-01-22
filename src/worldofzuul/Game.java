@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class Game {
     //Data fields
-    private Parser parser;
+    private final Parser parser;
     private Room currentRoom;
 
     //Creates the room
@@ -99,17 +99,29 @@ public class Game {
         brimhavenTown.setRoomItem(pens = new Item("pens"));
         brimhavenTown.setRoomItem(pipes = new Item("pipes"));
         school.setRoomItem(rope = new Item("rope"));
+
+        inventory.add(paper);
+        inventory.add(pens);
+        inventory.add(nails);
     }
 
     //Calls this method to play the game, it is a loop that runs until end of the game
     public void play() {
         printWelcome(); //Calls the printWelcome() method
+        boolean finished = false;
 
         //Repeatedly reads commands from console and executes them until game is over
-        boolean finished = false;
         while (! finished) {
+            if (questScore.getScore() >= 20) {
+                System.out.println("\nYou finished all the quests and helped the village get clean water and sanitation");
+                System.out.println("You scored an overall of " + questScore.getScore() + " points");
+                System.out.println("The end...");
+                finished = true;
+            }
+            else {
             Command command = parser.getCommand();
             finished = processCommand(command);
+            }
         }
         //Message when game is ended
         System.out.println("Thank you for playing.  Good bye.");
@@ -217,10 +229,6 @@ public class Game {
             System.out.println("You only need to write 'quit' to end the game");
             return false; // Does not quit
         }
-        else if (questScore.getScore() == 60) {
-            System.out.println("You finished all the quests and helped the village get clean water and sanitation");
-            return true;
-        }
         //if only commandWord quit it written the following code is executed and the game ends
         else {
             return true; //Quits
@@ -233,10 +241,10 @@ public class Game {
     private void printInventory() {
         String output = ""; //these "" initializes the variable to be empty
         //Runs through the arrayList named inventory and prints every item in the list
-        for (int i = 0; i < inventory.size(); i++) {
+        for (Item item : inventory) {
             //checks inventory for the current value of i, if something is stored there it is added to the String
             //variable 'output' and using the getDescription() method it is turned into a String
-            output += inventory.get(i).getDescription() + " \n"; //" " at the end leaves a space between printed items
+            output += item.getDescription() + " \n"; //" " at the end leaves a space between printed items
         }
         System.out.println("Your inventory contains: ");
         //if statement checks if inventory is empty by checking whether or not the value of 'output' has been changed
@@ -342,86 +350,85 @@ public class Game {
     }
 
     //Build Item
-
     private void buildItem(Command command) {
         if (!command.hasSecondWord()) {
             System.out.println("What do you what to build, add it after 'build'");
             return;
         }
-
+        //assigns second word to String project
         String project = command.getSecondWord();
 
         switch (project) {
-            //Build the spring
-            case "spring":
-                if (!currentRoom.equals(spring)) {
-                    System.out.println("\nYou are in the wrong location, go to the spring");
-                    break;
-                }
-                if (currentRoom.equals(spring))
-                    if (inventory.contains(wood) && inventory.contains(pickaxe) && inventory.contains(pipes)) {
-                        System.out.println("You built the spring protection! \nYou get 20 points");
-
-                        //remove items used from inventory
-                        inventory.remove(pipes);
-                        inventory.remove(wood);
-                        forest.setRoomItem(wood);
-
-                        //add points to user's score
-                        questScore.setScore(20);
-
-                    }else {
-                        System.out.println("You can't build the spring with the items you have, you need: \n" +
-                                " * pickaxe\n * wood\n * pipes");
-                    }
-            //Build the poster
-            case "poster":
-                if (!currentRoom.equals(school)) {
-                    System.out.println("\nYou are in the wrong location, go to the school");
-                    break;
-                }
-                if (currentRoom.equals(school))
-                    if (inventory.contains(paper) && inventory.contains(pens) && inventory.contains(nails) && inventory.contains(hammer)) {
-                        System.out.println("You built the sanitation posters! \nYou get 20 points");
-
-                        //remove items used from inventory
-                        inventory.remove(paper);
-                        inventory.remove(nails);
-                        inventory.remove(pens);
-
-                        //add points to user's score
-                        questScore.setScore(20);
-                        break;
-
-                    }else {
-                        System.out.println("You can't build the poster with the items you have, you need: \n" +
-                                " * paper\n * pens\n * nails\n * hammer");
-                    }
-            case "well":
-                if (!currentRoom.equals(village)) {
-                    System.out.println("\nYou are in the wrong location, go to the village");
-                    break;
-                }
-                if (currentRoom.equals(village))
-                    if (inventory.contains(rocks) && inventory.contains(rope) && inventory.contains(bucket) &&
-                            inventory.contains(wood) && inventory.contains(shovel)) {
-                        System.out.println("You built the well! \nYou get 20 points");
-
-                        //remove items used from inventory
-                        inventory.remove(rocks);
-                        inventory.remove(rope);
-                        inventory.remove(bucket);
-                        inventory.remove(wood);
-                        forest.setRoomItem(wood); //adds wood to forest again
-
-                        //add points to user's score
-                        questScore.setScore(20);
-                        break;
-
-                    }else {
-                        System.out.println("You can't build the well with the items you have, you need: \n" +
-                                " * rocks\n * rope\n * bucket\n * wood\n * shovel");
-                    }
+            case "spring" -> buildSpring();
+            case "poster" -> buildPoster();
+            case "well" -> buildWell();
         }
+    }
+    public void buildSpring() {
+        if (!currentRoom.equals(spring)) {
+            System.out.println("\nYou are in the wrong location, go to the spring");
+        }
+        if (currentRoom.equals(spring))
+            if (inventory.contains(wood) && inventory.contains(pickaxe) && inventory.contains(pipes)) {
+                System.out.println("You built the spring protection! \nYou get 20 points");
+
+                //remove items used from inventory
+                inventory.remove(pipes);
+                inventory.remove(wood);
+                forest.setRoomItem(wood);
+
+                //add points to user's score
+                questScore.setScore(20);
+
+            }else {
+                System.out.println("You can't build the spring with the items you have, you need: \n" +
+                        " * pickaxe\n * wood\n * pipes");
+            }
+    }
+
+    public void buildPoster() {
+        if (!currentRoom.equals(school)) {
+            System.out.println("\nYou are in the wrong location, go to the school");
+        }
+        if (currentRoom.equals(school))
+            if (inventory.contains(paper) && inventory.contains(pens) && inventory.contains(nails) && inventory.contains(hammer)) {
+                System.out.println("You built the sanitation posters! \nYou get 20 points");
+
+                //remove items used from inventory
+                inventory.remove(paper);
+                inventory.remove(nails);
+                inventory.remove(pens);
+
+                //add points to user's score
+                questScore.setScore(20);
+            }else {
+                System.out.println("You can't build the poster with the items you have, you need: \n" +
+                        " * paper\n * pens\n * nails\n * hammer");
+            }
+    }
+
+    public void buildWell() {
+        if (!currentRoom.equals(village)) {
+            System.out.println("\nYou are in the wrong location, go to the village");
+        }
+        if (currentRoom.equals(village))
+            if (inventory.contains(rocks) && inventory.contains(rope) && inventory.contains(bucket) &&
+                    inventory.contains(wood) && inventory.contains(shovel)) {
+                System.out.println("You built the well! \nYou get 20 points");
+
+                //remove items used from inventory
+                inventory.remove(rocks);
+                inventory.remove(rope);
+                inventory.remove(bucket);
+                inventory.remove(wood);
+                forest.setRoomItem(wood); //adds wood to forest again
+
+                //add points to user's score
+                questScore.setScore(20);
+
+            }else {
+                System.out.println("You can't build the well with the items you have, you need: \n" +
+                        " * rocks\n * rope\n * bucket\n * wood\n * shovel");
+            }
     }
 }
